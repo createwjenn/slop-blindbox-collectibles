@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="A study in mystery. A slowly turning, holographic Slop Blindbox Collectible.">
+  <title>Slop Blindbox Collectible</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9v14L16 30 3 23V9Z' fill='%23111111'/%3E%3Cpath d='m3 9 13 7 13-7M16 16v14' fill='none' stroke='white'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html,body { margin:0; width:100%; height:100%; overflow:hidden; background:#fff; }
+    main { position:relative; width:100%; height:100%; height:100svh; isolation:isolate; }
+    h1 { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; margin:0; padding-bottom:3vh; color:#080808; font-family:'Instrument Serif',Georgia,serif; font-size:100px; font-weight:400; letter-spacing:-.052em; line-height:.9; user-select:none; }
+    h1 span { display:inline-block; flex:none; white-space:nowrap; }
+    #scene { position:absolute; inset:0; z-index:1; }
+    canvas { display:block; width:100%; height:100%; }
+    .create-button { position:absolute; z-index:2; left:50%; bottom:max(36px,env(safe-area-inset-bottom)); transform:translateX(-50%); border:1px solid #080808; border-radius:999px; background:#080808; color:#fff; padding:16px 30px; min-height:52px; white-space:nowrap; font:500 15px/1.2 Arial,Helvetica,sans-serif; cursor:pointer; transition:background .2s,box-shadow .2s; }
+    .create-button:hover { background:#292929; box-shadow:0 4px 18px #00000014; }
+    .create-button:focus-visible { outline:2px solid #080808; outline-offset:5px; }
+  </style>
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+  <main aria-label="Slop Blindbox Collectible, a slowly rotating holographic collectible box">
+    <h1><span>Slop Blindbox Collectible</span></h1>
+    <div id="scene" role="img" aria-label="Large silver holographic blindbox with a glossy foil finish"></div>
+    <button class="create-button" type="button">Create your own</button>
+  </main>
+  <script type="module" src="./scene.js"></script>
+  <script>
+    const titleText = document.querySelector('h1 span');
+
+    function fitTitleToViewport() {
+      const measurementSize = 100;
+      const sideMargin = 24;
+      const opticalSafety = 0.92;
+      titleText.style.fontSize = `${measurementSize}px`;
+      const measuredWidth = titleText.scrollWidth;
+      const availableWidth = Math.max(1, window.innerWidth - sideMargin * 2);
+      titleText.style.fontSize = `${measurementSize * availableWidth / measuredWidth * opticalSafety}px`;
+    }
+
+    fitTitleToViewport();
+    window.addEventListener('resize', fitTitleToViewport);
+    document.fonts?.ready.then(fitTitleToViewport);
+  </script>
+</body>
+</html>
