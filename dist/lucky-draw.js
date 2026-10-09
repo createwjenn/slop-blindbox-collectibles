@@ -30,7 +30,7 @@ export function createLuckyDraw(model,host,camera){
  let drag=null,yaw=0,displayYaw=0,layout=0;
  const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
  const details=document.createElement('section');details.className='draw-details';details.hidden=true;
- details.innerHTML='<h2></h2><p></p><div class="draw-actions"><button type="button" data-action="wallpaper">Get wallpaper</button><button type="button" data-action="world">Enter world</button></div>';details.setAttribute('aria-live','polite');document.querySelector('main').append(details);
+ details.innerHTML='<h2>Congrats! You got<strong></strong></h2><p></p><div class="draw-actions"><button type="button" data-action="wallpaper">Get wallpaper</button><button type="button" data-action="world">Enter world</button></div>';details.setAttribute('aria-live','polite');document.querySelector('main').append(details);
  details.querySelector('[data-action=wallpaper]').addEventListener('click',()=>{
   const source=holder.userData.normalized?.children[0];
   if(entry&&source)showWallpaper(entry);
@@ -97,7 +97,7 @@ export function createLuckyDraw(model,host,camera){
    if(progress===1){layout=Math.min(1,layout+dt/.75);host.dataset.spinDegrees=THREE.MathUtils.radToDeg(displayYaw).toFixed(1);}
    if(progress===1&&!announced){
     announced=true;
-    details.querySelector('h2').textContent=`Congrats! You got ${entry.name}`;
+    details.querySelector('h2 strong').textContent=entry.name;
     details.querySelector('p').textContent=descriptions[indexChosen];details.hidden=false;
     requestAnimationFrame(()=>details.classList.add('visible'));
     host.setAttribute('aria-label',`Your lucky draw: ${entry.name}. Drag to rotate up to 100 degrees each way. Left and right arrow keys rotate; Home resets.`);

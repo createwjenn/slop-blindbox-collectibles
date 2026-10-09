@@ -1,8 +1,8 @@
 import { playSound } from './sound-effects.js?v=4';
 import * as THREE from 'three';
-import { createLuckyDraw } from './lucky-draw.js?v=actions-12';
+import { createLuckyDraw } from './lucky-draw.js?v=reveal-layout-13';
 import { selectLuckyDraw } from './draw-selection.js?v=1';
-import { offerHandUnboxing, updateHandUnboxing } from './hand-unboxing.js?v=hand-instructions-6';
+import { offerHandUnboxing, updateHandUnboxing } from './hand-unboxing.js?v=hand-instructions-7';
 import { createBoxTear } from './box-tear.js?v=1';
 import { isUnboxing, updateUnboxing, setUnboxingBounds } from './unboxing.js?v=prompt-10';
 import { createGallery } from './gallery.js?v=sound-10';
