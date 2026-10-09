@@ -1,6 +1,6 @@
 import { enterWorld } from './enter-world.js?v=1';
 import { showWallpaper } from './wallpaper.js?v=center-6';
-import { renderSocialReach } from './social-reach.js?v=1';
+import { renderSocialReach } from './social-reach.js?v=2';
 import * as THREE from 'three';
 import { GLTFLoader } from './vendor/GLTFLoader.js';
 export const collectibles=[
