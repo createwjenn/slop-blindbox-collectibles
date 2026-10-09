@@ -60,7 +60,7 @@
     main.unboxing #scroll-hint { visibility:hidden; }
     .unboxing-clouds { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
     .cloud-bed { z-index:0; } .cloud-mist { z-index:3; }
-    .unbox-prompt { position:absolute; left:50%; transform:translateX(-50%); z-index:5; display:flex; align-items:center; flex-direction:column; gap:9px; color:#c51f25; font:500 13px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif; letter-spacing:.04em; opacity:0; visibility:hidden; pointer-events:none; }
+    .unbox-prompt { position:absolute; left:50%; transform:translateX(-50%); z-index:5; display:flex; align-items:center; flex-direction:column; gap:9px; color:#c51f25; font:400 13px/1.3 'Instrument Serif',Georgia,serif; letter-spacing:.04em; opacity:0; visibility:hidden; pointer-events:none; }
     .unbox-prompt svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
     .unboxing-ready .unbox-prompt { visibility:visible; animation:unbox-pulse 2.2s ease-in-out infinite; }
     .unboxing-ready .unbox-prompt svg { animation:unbox-bounce 1.8s ease-in-out infinite; }
@@ -80,7 +80,7 @@
     .hand-unboxing[hidden],.hand-unboxing [hidden] { display:none!important; }
     .hand-message { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
     .camera-notice .hand-message { width:min(360px,calc(100% - 40px)); height:auto; left:50%; top:24px; transform:translateX(-50%); margin:0; overflow:visible; clip-path:none; white-space:normal; text-align:center; color:#bc202b; }
-    .unbox-prompt span { font-size:clamp(20px,2.4vw,30px); font-weight:700; text-transform:none; }
+    .unbox-prompt span { font-size:clamp(20px,2.4vw,30px); font-weight:400; text-transform:none; }
     .hand-actions { display:contents; }
     .hand-actions .create-button { pointer-events:auto; }
     main.dark-stage .hand-actions .create-button { background:#fff; color:#000; border-color:#fff; backdrop-filter:none; -webkit-backdrop-filter:none; text-shadow:none; box-shadow:0 4px 18px #00000014; }
@@ -145,6 +145,6 @@
   <script>
     window.slopLoadFailed=()=>{document.querySelector('#loader-copy').textContent='Your collectible couldn’t load. Let’s try again.';document.querySelector('#loader-retry').hidden=false;};
   </script>
-  <script type="module">import('./scene.js?v=type-camera-52').catch(window.slopLoadFailed);</script>
+  <script type="module">import('./scene.js?v=shake-prompt-53').catch(window.slopLoadFailed);</script>
 </body>
 </html>
