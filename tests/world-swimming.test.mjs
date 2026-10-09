@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+const source=await readFile(new URL('../dist/world-movement.js',import.meta.url),'utf8');
+const {stepSwimmingCharacter,waterDepth}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const nav=JSON.parse(await readFile(new URL('../dist/assets/world-tralalero/navigation.json',import.meta.url)));
+let p={x:nav.spawn[0],y:nav.spawn[1],z:nav.spawn[2]};
+assert.equal(waterDepth(nav,p.x,p.z),0,'spawn is on dry land');
+for(let i=0;i<80;i++)p=stepSwimmingCharacter(nav,p,Math.PI/2,1,0,1/60);
+assert.equal(p.immersion,1,'can enter water from spawn path');
+assert.ok(Math.abs(p.y-(nav.waterLevel-.30))<.001,'feet sit below water while body remains above');
+for(let i=0;i<80;i++)p=stepSwimmingCharacter(nav,p,Math.PI/2,-1,0,1/60);
+assert.equal(p.immersion,0,'can climb back onto the starting path');
+const stopped=stepSwimmingCharacter({...nav,ground:{}},p,0,1,0,.04);
+assert.equal(stopped.moved,false,'water does not permit leaving scanned terrain');
+const cliff=stepSwimmingCharacter({cell:1,waterLevel:0,ground:{'0,0':2,'0,1':-1}},{x:.1,y:-.22,z:1.001},0,1,0,.04);
+assert.equal(cliff.moved,false,'swimming does not allow climbing a tall wall');
+console.log('PASS: dry spawn, water entry, floating height, land exit, boundaries and cliffs');
