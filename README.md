@@ -30,7 +30,7 @@ The black stage showcases eight supplied GLB collectibles in one horizontal line
 
 ### Hand unboxing
 
-After Claim mine and the three-second box shake, enable the camera, show an open palm, then curl the fingers. The lid tears off first; holding the curl separates the body panels. Hand loss pauses the second stage. The single frosted-glass Open with hand button requests camera access. The live preview sits in the top-right corner; Escape stops the camera. Camera tracks stop when opening completes, when stopped with Escape, when the tab is hidden, or on page exit.
+After Claim mine, click the box to start the three-second shake. Camera access is requested automatically after the shake and collectible loading finish. Show an open palm, then close it once: the entire lid-and-panel opening animation completes even if the hand relaxes or leaves view. Camera instructions are red. A Retry camera button appears only if camera access fails or is interrupted. The live preview sits in the top-right corner; Escape stops the camera. Camera tracks stop when opening completes, when stopped with Escape, when the tab is hidden, or on page exit.
 
 MediaPipe Tasks Vision 0.10.14 and the float16 Hand Landmarker model are served locally from `dist/vendor/mediapipe`. Camera frames are processed in a local worker; they are not uploaded or recorded. Camera access requires localhost or HTTPS and browser permission. See https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js for upstream documentation.
 

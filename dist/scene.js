@@ -2,9 +2,9 @@ import { playSound } from './sound-effects.js?v=4';
 import * as THREE from 'three';
 import { createLuckyDraw } from './lucky-draw.js?v=actions-12';
 import { selectLuckyDraw } from './draw-selection.js?v=1';
-import { offerHandUnboxing, updateHandUnboxing } from './hand-unboxing.js?v=sound-prompts-4';
+import { offerHandUnboxing, updateHandUnboxing } from './hand-unboxing.js?v=single-palm-5';
 import { createBoxTear } from './box-tear.js?v=1';
-import { isUnboxing, updateUnboxing, setUnboxingBounds } from './unboxing.js?v=cloud-density-5';
+import { isUnboxing, updateUnboxing, setUnboxingBounds } from './unboxing.js?v=prompt-6';
 import { createGallery } from './gallery.js?v=sound-10';
 import { updateLandscape } from './landscape.js?v=tap-hints-16';
 import { unlockUnwrap, updateUnwrap, isUnwrapUnlocked } from './unwrap.js?v=sound-once-8';
@@ -354,7 +354,7 @@ renderer.setAnimationLoop(now=>{
   if(age>=3){
    shakeStarted=null;document.querySelector('main').classList.remove('box-shaking');
    luckyDraw.whenReady().then(offerHandUnboxing).catch(()=>{status.hidden=false;status.textContent="Your collectible could not load. Please refresh and try again.";});
-   host.setAttribute('aria-label','Choose Open with hand to open the box.');
+   host.setAttribute('aria-label','Allow camera access, then close your palm once to open the box.');
   }else{
    const envelope=THREE.MathUtils.smoothstep(age,0,.16)*(1-THREE.MathUtils.smoothstep(age,2.42,3));
    // Trigger at the diagonal swing reversals; never queue a whole sequence,
