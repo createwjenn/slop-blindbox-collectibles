@@ -1,7 +1,7 @@
 import {createWorldAnimator} from './world-animation.js';
 import {worldInput} from './world-input.js';
 import {groundAt,stepCharacter,stepSwimmingCharacter} from './world-movement.js?v=water-1';
-import {worldConfig} from './world-config.js';
+import {worldConfig} from './world-config.js?v=niu-2';
 import {createWorldWater} from './world-water.js';
 import * as THREE from 'three';
 import {SplatMesh,SparkRenderer} from './vendor/spark.module.js';
@@ -18,14 +18,14 @@ detailButton.hidden=!matchMedia('(pointer:fine)').matches;
 const highDetail=new URLSearchParams(location.search).get('detail')==='high';
 detailButton.textContent=highDetail?'Faster view':'High detail';
 detailButton.onclick=()=>{const url=new URL(location.href);url.searchParams.set('detail',highDetail?'standard':'high');location.href=url;};
-const keys=new Set();let ready=false,drag=null,yaw=0,orbit=0,pitch=.23,distance=config.swimming?1.2:2.1;
+const keys=new Set();let ready=false,drag=null,yaw=0,orbit=0,pitch=.23,distance=config.cameraDistance;
 let navigation,avatar,shadow,spawn,animator,water;
 let immersion=0,elapsed=0;const waterClip=new THREE.Plane(new THREE.Vector3(0,1,0),0);
 const player=new THREE.Group(),position=new THREE.Vector3(),desired=new THREE.Vector3(),look=new THREE.Vector3();
 let renderer,scene,camera,splats,spark;
 const cameraRay=new THREE.Raycaster();let lastCameraProbe=0,cameraClearance=Infinity;
 function ground(x,z){return groundAt(navigation,x,z);}
-function reset(){if(!ready)return;position.copy(spawn);player.position.copy(spawn);immersion=0;yaw=navigation.spawnYaw??0;orbit=0;pitch=.23;distance=config.swimming?1.2:2.1;updateCamera(1);}
+function reset(){if(!ready)return;position.copy(spawn);player.position.copy(spawn);immersion=0;yaw=navigation.spawnYaw??0;orbit=0;pitch=.23;distance=config.cameraDistance;updateCamera(1);}
 document.querySelector('#reset').onclick=reset;
 const controls=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight']);
 addEventListener('keydown',event=>{if(controls.has(event.code)){event.preventDefault();keys.add(event.code);}if(event.code==='KeyR')reset();if(event.code==='Escape')closeWorld();});
