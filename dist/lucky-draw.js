@@ -1,5 +1,6 @@
 import { enterWorld } from './enter-world.js?v=1';
 import { showWallpaper } from './wallpaper.js?v=center-6';
+import { renderSocialReach } from './social-reach.js?v=1';
 import * as THREE from 'three';
 import { GLTFLoader } from './vendor/GLTFLoader.js';
 export const collectibles=[
@@ -30,7 +31,7 @@ export function createLuckyDraw(model,host,camera){
  let drag=null,yaw=0,displayYaw=0,layout=0;
  const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
  const details=document.createElement('section');details.className='draw-details';details.hidden=true;
- details.innerHTML='<h2>Congrats! You got<strong></strong></h2><p></p><div class="draw-actions"><button type="button" data-action="wallpaper">Get wallpaper</button><button type="button" data-action="world">Enter world</button></div>';details.setAttribute('aria-live','polite');document.querySelector('main').append(details);
+ details.innerHTML='<h2>Congrats! You got<strong></strong></h2><p class="draw-social-reach"></p><p class="draw-description"></p><div class="draw-actions"><button type="button" data-action="wallpaper">Get wallpaper</button><button type="button" data-action="world">Enter world</button></div>';details.setAttribute('aria-live','polite');document.querySelector('main').append(details);
  details.querySelector('[data-action=wallpaper]').addEventListener('click',()=>{
   const source=holder.userData.normalized?.children[0];
   if(entry&&source)showWallpaper(entry);
@@ -98,7 +99,8 @@ export function createLuckyDraw(model,host,camera){
    if(progress===1&&!announced){
     announced=true;
     details.querySelector('h2 strong').textContent=entry.name;
-    details.querySelector('p').textContent=descriptions[indexChosen];details.hidden=false;
+    renderSocialReach(details.querySelector('.draw-social-reach'),entry.slug);
+    details.querySelector('.draw-description').textContent=descriptions[indexChosen];details.hidden=false;
     requestAnimationFrame(()=>details.classList.add('visible'));
     host.setAttribute('aria-label',`Your lucky draw: ${entry.name}. Drag to rotate up to 100 degrees each way. Left and right arrow keys rotate; Home resets.`);
     window.dispatchEvent(new CustomEvent('slop-collectible-revealed',{detail:{name:entry.name,secret:entry.slug==='secret-capybara-toilet'}}));

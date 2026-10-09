@@ -73,6 +73,9 @@
     .draw-actions button:hover { background:#f2f2f2; transform:translateY(-2px); }
     .draw-actions button:focus-visible { outline:2px solid #bc202b; outline-offset:4px; }
     .draw-details p { margin:0; max-width:440px; color:#382528; font:400 clamp(14px,1.3vw,18px)/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif; }
+    .draw-details .draw-social-reach { margin-bottom:14px; }
+    .draw-social-reach a { color:inherit; text-decoration:underline; text-underline-offset:3px; pointer-events:auto; }
+    .draw-social-reach a:focus-visible { outline:2px solid #bc202b; outline-offset:4px; }
     @media(max-width:700px) { .draw-details { left:9%; right:9%; top:70%; transform:translateY(12px); } .draw-details.visible { transform:translateY(0); } .draw-details h2 { font-size:34px; margin-bottom:12px; } .draw-details p { font-size:14px; } }
     @media(prefers-reduced-motion:reduce) { .draw-details { transition:none; } }
     .hand-opening .unbox-prompt { display:none; }
@@ -149,6 +152,6 @@
   <script>
     window.slopLoadFailed=()=>{document.querySelector('#loader-copy').textContent='Your collectible couldn’t load. Let’s try again.';document.querySelector('#loader-retry').hidden=false;};
   </script>
-  <script type="module">import('./scene.js?v=reveal-layout-56').catch(window.slopLoadFailed);</script>
+  <script type="module">import('./scene.js?v=social-reach-57').catch(window.slopLoadFailed);</script>
 </body>
 </html>
