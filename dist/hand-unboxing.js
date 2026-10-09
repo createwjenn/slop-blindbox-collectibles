@@ -2,7 +2,7 @@ import { playSound } from './sound-effects.js?v=4';
 const stage=document.querySelector('main');
 const panel=document.createElement('section');panel.className='hand-unboxing';panel.hidden=true;
 panel.setAttribute('aria-label','Open your blind box');
-panel.innerHTML=`<p id="hand-status" class="hand-message" role="status"></p><div class="hand-preview" hidden aria-label="Live hand camera preview"><video autoplay playsinline muted></video><canvas width="320" height="240"></canvas><p class="camera-prompt" role="status">Raise your hand</p></div><div class="hand-actions"><button class="create-button" type="button" data-camera aria-describedby="hand-status" hidden>Retry camera</button></div>`;
+panel.innerHTML=`<p id="hand-status" class="hand-message" role="status"></p><div class="hand-preview" hidden aria-label="Live hand camera preview"><video autoplay playsinline muted></video><canvas width="320" height="240"></canvas><p class="camera-prompt" role="status">Raise one hand and open your palm</p></div><div class="hand-actions"><button class="create-button" type="button" data-camera aria-describedby="hand-status" hidden>Retry camera</button></div>`;
 stage.append(panel);
 const message=panel.querySelector('.hand-message'),video=panel.querySelector('video'),preview=panel.querySelector('.hand-preview'),overlay=panel.querySelector('canvas'),ctx=overlay.getContext('2d');
 const cameraButton=panel.querySelector('[data-camera]');
@@ -44,14 +44,14 @@ async function startCamera(){
   stream=media;video.srcObject=media;await video.play();
   if(token!==session){media.getTracks().forEach(t=>t.stop());return;}
   media.getVideoTracks()[0].onended=()=>{if(token===session)failCamera('Camera disconnected. Click Retry camera.');};
-  preview.hidden=false;panel.classList.remove('camera-notice');cameraButton.hidden=true;cameraPrompt.textContent='Raise your hand';message.textContent='Loading hand tracking…';
+  preview.hidden=false;panel.classList.remove('camera-notice');cameraButton.hidden=true;cameraPrompt.textContent='Raise one hand and open your palm';message.textContent='Loading hand tracking…';
   worker=new Worker(new URL('./hand-worker.js',import.meta.url));
   timeout=setTimeout(()=>failCamera('Hand tracking could not load. Click Retry camera.'),30000);
   worker.onerror=()=>failCamera('Hand tracking is unavailable. Click Retry camera.');
   worker.onmessage=({data})=>{
    if(token!==session)return;
    if(data.type==='ready'){
-    clearTimeout(timeout);message.textContent='Show your open palm to the camera.';
+    clearTimeout(timeout);message.textContent='Raise one hand and open your palm toward the camera.';
     frameTimer=setInterval(async()=>{
      if(busy||video.readyState<2||video.currentTime===lastFrame||document.hidden)return;
      busy=true;lastFrame=video.currentTime;
@@ -66,13 +66,13 @@ async function startCamera(){
 cameraButton.onclick=startCamera;
 function receiveHand(points,world){
  ctx.clearRect(0,0,320,240);
- if(!points){cameraPrompt.textContent=running?'Opening your box…':'Raise your hand';if(!running){message.textContent='Bring your whole hand into view.';openFrames=0;armed=false;curlFrames=0;}return;}
- cameraPrompt.textContent=running?'Opening your box…':'Close your palm once to open';
+ if(!points){cameraPrompt.textContent=running?'Opening your box…':'Raise one hand and open your palm';if(!running){message.textContent='Raise one hand and open your palm toward the camera.';openFrames=0;armed=false;curlFrames=0;}return;}
+ cameraPrompt.textContent=running?'Opening your box…':armed?'Close your palm once to open':'Raise one hand and open your palm';
  ctx.fillStyle='#d92b32';ctx.strokeStyle='#ffffffaa';ctx.lineWidth=2;
  for(const base of [1,5,9,13,17]){ctx.beginPath();ctx.moveTo((1-points[0].x)*320,points[0].y*240);for(let j=base;j<base+4;j++)ctx.lineTo((1-points[j].x)*320,points[j].y*240);ctx.stroke();}
  for(const p of points){ctx.beginPath();ctx.arc((1-p.x)*320,p.y*240,3,0,Math.PI*2);ctx.fill();}
  const curl=fingerCurl(world||points);
- if(!armed){openFrames=curl<.22?openFrames+1:0;if(openFrames>=5){armed=true;message.textContent='Close your palm once to open the whole box.';}}
+ if(!armed){openFrames=curl<.22?openFrames+1:0;if(openFrames>=5){armed=true;cameraPrompt.textContent='Close your palm once to open';message.textContent='Close your palm once to open the whole box.';}}
  else if(!running){curlFrames=curl>.55?curlFrames+1:0;if(curlFrames>=3)beginOpening();}
 
 }

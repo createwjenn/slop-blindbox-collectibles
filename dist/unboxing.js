@@ -21,7 +21,7 @@ export function updateUnboxing(dt){
 
 const prompt=document.createElement('div');
 prompt.className='unbox-prompt';prompt.setAttribute('role','status');
-prompt.innerHTML='<span>Shake me</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17m-6-6 6 6 6-6"/></svg>';
+prompt.innerHTML='<span>Click to shake</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17m-6-6 6 6 6-6"/></svg>';
 stage.append(prompt);
 const cloudBack=document.createElement('canvas'),cloudFront=document.createElement('canvas');
 cloudBack.className='unboxing-clouds cloud-bed';cloudFront.className='unboxing-clouds cloud-mist';
