@@ -1,4 +1,5 @@
 import {createWorldAnimator} from './world-animation.js';
+import {createJump} from './world-jump.js';
 import {worldInput} from './world-input.js';
 import {groundAt,stepCharacter,stepSwimmingCharacter} from './world-movement.js?v=water-1';
 import {worldConfig} from './world-config.js?v=tree-garden-6';
@@ -18,6 +19,7 @@ detailButton.hidden=!matchMedia('(pointer:fine)').matches;
 const highDetail=new URLSearchParams(location.search).get('detail')==='high';
 detailButton.textContent=highDetail?'Faster view':'High detail';
 detailButton.onclick=()=>{const url=new URL(location.href);url.searchParams.set('detail',highDetail?'standard':'high');location.href=url;};
+const jump=createJump();
 const keys=new Set();let ready=false,drag=null,yaw=0,orbit=0,pitch=.23,distance=config.cameraDistance;
 let navigation,avatar,shadow,spawn,animator,water;
 let immersion=0,elapsed=0;const waterClip=new THREE.Plane(new THREE.Vector3(0,1,0),0);
@@ -25,10 +27,10 @@ const player=new THREE.Group(),position=new THREE.Vector3(),desired=new THREE.Ve
 let renderer,scene,camera,splats,spark;
 const cameraRay=new THREE.Raycaster();let lastCameraProbe=0,cameraClearance=Infinity;
 function ground(x,z){return groundAt(navigation,x,z);}
-function reset(){if(!ready)return;position.copy(spawn);player.position.copy(spawn);immersion=0;yaw=navigation.spawnYaw??0;orbit=0;pitch=.23;distance=config.cameraDistance;updateCamera(1);}
+function reset(){if(!ready)return;jump.reset();position.copy(spawn);player.position.copy(spawn);immersion=0;yaw=navigation.spawnYaw??0;orbit=0;pitch=.23;distance=config.cameraDistance;updateCamera(1);}
 document.querySelector('#reset').onclick=reset;
 const controls=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight']);
-addEventListener('keydown',event=>{if(controls.has(event.code)){event.preventDefault();keys.add(event.code);}if(event.code==='KeyR')reset();if(event.code==='Escape')closeWorld();});
+addEventListener('keydown',event=>{if(event.code==='Space'&&(event.target===canvas||event.target===document.body)){event.preventDefault();if(ready&&!event.repeat)jump.start();}if(controls.has(event.code)){event.preventDefault();keys.add(event.code);}if(event.code==='KeyR')reset();if(event.code==='Escape')closeWorld();});
 addEventListener('keyup',event=>keys.delete(event.code));
 addEventListener('blur',()=>{keys.clear();drag=null;});
 document.addEventListener('visibilitychange',()=>keys.clear());
@@ -40,9 +42,10 @@ for(const button of document.querySelectorAll('[data-key]')){
  button.onpointerdown=e=>{e.preventDefault();keys.add(button.dataset.key);button.setPointerCapture(e.pointerId);};
  for(const name of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(name,()=>keys.delete(button.dataset.key));
 }
+document.querySelector('#jump').onclick=()=>{if(ready)jump.start();canvas.focus();};
 function updateCamera(dt){
  const heading=yaw+orbit;
- look.copy(position);look.y+=.38;
+ look.copy(position);look.y+=.38+jump.height*.35;
  desired.set(Math.sin(heading)*distance*Math.cos(pitch),distance*Math.sin(pitch)+.24,Math.cos(heading)*distance*Math.cos(pitch)).add(look);
  if(config.swimming)desired.y=Math.max(desired.y,navigation.waterLevel+.12);
  const floor=ground(desired.x,desired.z);if(floor!==undefined)desired.y=Math.max(desired.y,floor+.18);
@@ -65,10 +68,11 @@ function move(dt){
  yaw=step.yaw;position.set(step.x,step.y,step.z);
  elapsed+=dt;immersion=THREE.MathUtils.lerp(immersion,step.immersion??0,Math.min(1,dt*7));
  player.position.x=position.x;player.position.z=position.z;player.position.y=config.swimming?THREE.MathUtils.lerp(player.position.y,position.y,Math.min(1,dt*9)):position.y;player.rotation.y=yaw+Math.PI;
- avatar.position.y=immersion*Math.sin(elapsed*2.4)*.014;avatar.rotation.z=immersion*Math.sin(elapsed*2)*.035;
+ jump.update(dt);
+ avatar.position.y=jump.height+immersion*Math.sin(elapsed*2.4)*.014;avatar.rotation.z=immersion*Math.sin(elapsed*2)*.035;
  animator.update(input.running&&immersion<.3,dt*(1-immersion*.65));
  if(water){waterClip.constant=-(navigation.waterLevel-.035)+(1-immersion)*3;water.update(elapsed,position,immersion,step.moved);}
- shadow.visible=immersion<.15;
+ shadow.visible=immersion<.15;shadow.scale.setScalar(1+jump.height*.5);shadow.material.opacity=1-jump.height*.8;
  shadow.position.set(position.x,position.y+.008,position.z);
  updateCamera(dt);
 }
