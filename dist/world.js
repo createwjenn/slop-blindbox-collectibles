@@ -1,7 +1,7 @@
 import {createWorldAnimator} from './world-animation.js';
 import {worldInput} from './world-input.js';
 import {groundAt,stepCharacter,stepSwimmingCharacter} from './world-movement.js?v=water-1';
-import {worldConfig} from './world-config.js?v=ballerina-4';
+import {worldConfig} from './world-config.js?v=chill-5';
 import {createWorldWater} from './world-water.js';
 import * as THREE from 'three';
 import {SplatMesh,SparkRenderer} from './vendor/spark.module.js';
