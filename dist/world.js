@@ -1,8 +1,9 @@
 import {createWorldAnimator} from './world-animation.js';
+import {createWorldCoins} from './world-coins.js';
 import {createJump} from './world-jump.js';
 import {worldInput} from './world-input.js';
 import {groundAt,stepCharacter,stepSwimmingCharacter} from './world-movement.js?v=water-1';
-import {worldConfig} from './world-config.js?v=tree-garden-6';
+import {worldConfig} from './world-config.js?v=straw-7';
 import {createWorldWater} from './world-water.js';
 import * as THREE from 'three';
 import {SplatMesh,SparkRenderer} from './vendor/spark.module.js';
@@ -21,7 +22,7 @@ detailButton.textContent=highDetail?'Faster view':'High detail';
 detailButton.onclick=()=>{const url=new URL(location.href);url.searchParams.set('detail',highDetail?'standard':'high');location.href=url;};
 const jump=createJump();
 const keys=new Set();let ready=false,drag=null,yaw=0,orbit=0,pitch=.23,distance=config.cameraDistance;
-let navigation,avatar,shadow,spawn,animator,water;
+let navigation,avatar,shadow,spawn,animator,water,coins;
 let immersion=0,elapsed=0;const waterClip=new THREE.Plane(new THREE.Vector3(0,1,0),0);
 const player=new THREE.Group(),position=new THREE.Vector3(),desired=new THREE.Vector3(),look=new THREE.Vector3();
 let renderer,scene,camera,splats,spark;
@@ -74,6 +75,7 @@ function move(dt){
  if(water){waterClip.constant=-(navigation.waterLevel-.035)+(1-immersion)*3;water.update(elapsed,position,immersion,step.moved);}
  shadow.visible=immersion<.15;shadow.scale.setScalar(1+jump.height*.5);shadow.material.opacity=1-jump.height*.8;
  shadow.position.set(position.x,position.y+.008,position.z);
+ coins?.update(elapsed,position,jump.height);
  updateCamera(dt);
 }
 async function init(){
@@ -96,9 +98,10 @@ async function init(){
  const candidates=Object.entries(nav.ground).map(([key,y])=>{const [x,z]=key.split(',').map(Number);return new THREE.Vector3((x+.5)*nav.cell,y,(z+.5)*nav.cell);}).filter(p=>Math.abs(p.y+.6)<.3).sort((a,b)=>a.x*a.x+a.z*a.z-(b.x*b.x+b.z*b.z));
  if(!nav.spawn&&!candidates.length)throw Error('No walkable ground found');spawn=nav.spawn?new THREE.Vector3(...nav.spawn):candidates[0];
  function resize(){renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}addEventListener('resize',resize);resize();
+ coins=createWorldCoins(scene,nav,spawn,slug,config.swimming);
  ready=true;reset();let last=performance.now();
  renderer.setAnimationLoop(now=>{const dt=Math.min(.04,(now-last)/1000);last=now;if(document.hidden)return;move(dt);renderer.render(scene,camera);});
  loading.hidden=true;canvas.focus();
 }
 init().catch(error=>{console.error('World loading failed',error);progress.textContent='The world couldn’t load. Return to your collectible and try again.';});
-addEventListener('pagehide',()=>{keys.clear();animator?.dispose();water?.dispose();renderer?.setAnimationLoop(null);splats?.dispose();spark?.dispose();renderer?.dispose();});
+addEventListener('pagehide',()=>{keys.clear();animator?.dispose();water?.dispose();coins?.dispose();renderer?.setAnimationLoop(null);splats?.dispose();spark?.dispose();renderer?.dispose();});

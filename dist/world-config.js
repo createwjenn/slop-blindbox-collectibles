@@ -1,5 +1,6 @@
 // Each character can receive an independent landscape without changing the others.
 const worlds={
+ 'strawberlina':{assets:'./assets/world-strawberlina',swimming:false,cameraDistance:1.2},
  'secret-capybara-toilet':{assets:'./assets/world-capybara',swimming:false,cameraDistance:1.2},
  'chill-guy':{assets:'./assets/world-chill-guy',swimming:false,cameraDistance:1.5},
  'ballerina-capuccina':{assets:'./assets/world-ballerina',swimming:false,cameraDistance:1.2},
