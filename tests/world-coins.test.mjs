@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 const source=await readFile(new URL('../dist/world-coin-state.js',import.meta.url),'utf8');
 const {createCoinState}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
-const folders=['world-niu-lai','world-strawberlina','world','world-tung-v2','world-tralalero','world-ballerina','world-chill-guy','world-capybara'];
+const folders=['world','world-strawberlina','world-bananito','world-tung-v2','world-tralalero','world-ballerina','world-chill-guy','world-capybara'];
 for(const folder of folders){
  const nav=JSON.parse(await readFile(new URL(`../dist/assets/${folder}/navigation.json`,import.meta.url),'utf8'));
  let spawn=nav.spawn;

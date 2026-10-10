@@ -3,7 +3,7 @@ import {createWorldCoins} from './world-coins.js';
 import {createJump} from './world-jump.js';
 import {worldInput} from './world-input.js';
 import {groundAt,stepCharacter,stepSwimmingCharacter} from './world-movement.js?v=water-1';
-import {worldConfig} from './world-config.js?v=straw-7';
+import {worldConfig} from './world-config.js?v=banana-8';
 import {createWorldWater} from './world-water.js';
 import * as THREE from 'three';
 import {SplatMesh,SparkRenderer} from './vendor/spark.module.js';
