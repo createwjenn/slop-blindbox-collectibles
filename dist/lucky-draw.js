@@ -31,7 +31,7 @@ export function createLuckyDraw(model,host,camera){
  let drag=null,yaw=0,displayYaw=0,layout=0;
  const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2();
  const details=document.createElement('section');details.className='draw-details';details.hidden=true;
- details.innerHTML='<h2>Congrats! You got<strong></strong></h2><p class="draw-social-reach"></p><p class="draw-description"></p><div class="draw-actions"><button type="button" data-action="wallpaper">Get wallpaper</button><button type="button" data-action="world">Enter world</button></div>';details.setAttribute('aria-live','polite');document.querySelector('main').append(details);
+ details.innerHTML='<h2>Congrats! You got<strong></strong></h2><p class="draw-social-reach"></p><p class="draw-description"></p><div class="draw-actions"><button type="button" data-action="world">Enter world <span aria-hidden="true">→</span></button><button type="button" data-action="wallpaper">Get wallpaper</button></div>';details.setAttribute('aria-live','polite');document.querySelector('main').append(details);
  details.querySelector('[data-action=wallpaper]').addEventListener('click',()=>{
   const source=holder.userData.normalized?.children[0];
   if(entry&&source)showWallpaper(entry);

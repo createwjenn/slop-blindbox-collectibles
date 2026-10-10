@@ -1,6 +1,6 @@
 import { playSound } from './sound-effects.js?v=4';
 import * as THREE from 'three';
-import { createLuckyDraw } from './lucky-draw.js?v=character-links-15';
+import { createLuckyDraw } from './lucky-draw.js?v=world-button-16';
 import { selectLuckyDraw } from './draw-selection.js?v=1';
 import { offerHandUnboxing, updateHandUnboxing } from './hand-unboxing.js?v=hand-instructions-7';
 import { createBoxTear } from './box-tear.js?v=1';
